@@ -35,3 +35,15 @@ Future<void> ensureDirectoryWritable(String directoryPath) async {
     }
   }
 }
+
+Future<void> moveFile(File source, String destinationPath) async {
+  try {
+    await source.rename(destinationPath);
+    return;
+  } on FileSystemException catch (e) {
+    if (e.osError?.errorCode != 17) rethrow;
+  }
+
+  await source.copy(destinationPath);
+  await source.delete();
+}

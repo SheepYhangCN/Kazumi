@@ -765,7 +765,7 @@ class DownloadManager implements IDownloadManager {
         return;
       }
 
-      await File(tmpPath).rename(filePath);
+      await moveFile(File(tmpPath), filePath);
 
       episode.status = DownloadStatus.completed;
       episode.localM3u8Path = filePath;
@@ -893,7 +893,7 @@ class DownloadManager implements IDownloadManager {
           headers: headers,
           cancelToken: cancelToken,
         );
-        await File(tmpPath).rename(savePath);
+        await moveFile(File(tmpPath), savePath);
         return await File(savePath).length();
       } catch (e) {
         try {
